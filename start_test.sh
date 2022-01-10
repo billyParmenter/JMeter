@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+
 
 #=== FUNCTION ================================================================
 #        NAME: logit
@@ -207,9 +207,10 @@ wait
 
 for ((i=0; i<end; i++))
 do
+		logit "INFO" "scenario/${jmx_dir}/jmeter_injector_start.sh"
         logit "INFO" "Starting jmeter server on ${slave_pods[$i]} in parallel"
-        kubectl cp -c jmslave "scenario/${jmx_dir}/jmeter_injector_start.sh" -n "${namespace}" "${slave_pods[$i]}:/opt/jmeter/jmeter_injector_start"
-        kubectl exec -c jmslave -i -n "${namespace}" "${slave_pods[$i]}" -- /bin/bash "/opt/jmeter/jmeter_injector_start" &  
+        kubectl cp -c jmslave "scenario/${jmx_dir}/jmeter_injector_start.sh" -n "${namespace}" "${slave_pods[$i]}"://opt/jmeter/jmeter_injector_start
+        kubectl exec -c jmslave -i -n "${namespace}" "${slave_pods[$i]}" -- //bin/bash //opt/jmeter/jmeter_injector_start &  
 done
 
 
@@ -246,4 +247,4 @@ logit "INFO" "Copying scenario/${jmx_dir}/load_test.sh into  ${master_pod}:/opt/
 kubectl cp -c jmmaster "scenario/${jmx_dir}/load_test.sh" -n "${namespace}" "${master_pod}:/opt/jmeter/load_test"
 
 logit "INFO" "Starting the performance test"
-kubectl exec -c jmmaster -i -n "${namespace}" "${master_pod}" -- /bin/bash "/opt/jmeter/load_test"
+kubectl exec -c jmmaster -i -n "${namespace}" "${master_pod}" -- //bin/bash //opt/jmeter/load_test
